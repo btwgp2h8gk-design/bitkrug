@@ -1,0 +1,33 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="БитКруг">
+<meta name="theme-color" content="#14101f"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="style.css"><title>БитКруг</title></head><body>
+<h1>🎛 БитКруг</h1>
+<section id="t-circle" class="on">
+ <div id="circle"></div>
+ <div>Тональность: <select id="key"></select> Лад: <select id="mode"></select></div>
+ <h2>Аккорды лада</h2><div class="chords" id="diat"></div>
+ <h2>Прогрессии по жанру</h2><select id="genre"></select>
+ <div id="progs"></div><p style="color:#999">Пунктир = заимствованный аккорд (из другого лада) — ломает предсказуемость. Нажми аккорд — услышишь. «▶» — проиграть, «★» — выбрать для MIDI.</p>
+ <div id="chosen"></div>
+</section>
+<section id="t-drums">
+ <div><select id="preset"></select> BPM <input id="bpm" type="number" value="140" min="60" max="200" style="width:70px"></div>
+ <div>Свинг <input id="swing" type="range" min="0" max="60" value="0"> <span id="swv">0%</span></div>
+ <div><button class="b" id="play">▶ Старт</button><button class="b" id="clear">Очистить</button><button class="b" id="withch">Аккорды: выкл</button></div>
+ <div class="grid" id="grid"></div>
+ <div><button class="b" id="mDr">⬇ MIDI барабаны</button><button class="b" id="mCh">⬇ MIDI аккорды</button><button class="b" id="mAll">⬇ MIDI всё</button></div>
+ <p style="color:#999">MIDI: 4 такта, барабаны на 10 канале (GM), аккорды — 1 аккорд на такт.</p>
+</section>
+<section id="t-lyr">
+ <textarea id="lyr" rows="12" style="width:100%;background:#221a33;color:#eee;border-radius:10px;padding:8px;font-size:16px" placeholder="Пиши текст… (сохраняется автоматически)"></textarea>
+ <div id="lstat" style="font-size:13px"></div>
+ <h2>Рифмы</h2><input id="rw" placeholder="слово"> <button class="b" id="rlast">к последнему слову строки</button>
+ <div id="rhymes" style="font-size:15px;line-height:1.8"></div>
+ <p style="color:#999">Слоги = гласные. Ударение отметь ЗАГЛАВНОЙ гласной (сердцЕ) — тогда считаются ударения и рифма ищется от ударной гласной.</p>
+</section>
+<section id="t-ref"></section>
+<nav><button data-t="circle" class="on">Круг</button><button data-t="drums">Драмы</button><button data-t="lyr">Текст</button><button data-t="ref">Справка</button></nav>
+<script src="words.js"></script><script src="app.js"></script></body></html>
