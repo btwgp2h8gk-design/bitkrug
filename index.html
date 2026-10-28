@@ -2,32 +2,64 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="БитКруг">
-<meta name="theme-color" content="#14101f"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#14101f"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png">
 <link rel="stylesheet" href="style.css"><title>БитКруг</title></head><body>
-<h1>🎛 БитКруг</h1>
+<header><b>🎛 БитКруг</b> <span id="hdr"></span></header>
 <section id="t-circle" class="on">
  <div id="circle"></div>
- <div>Тональность: <select id="key"></select> Лад: <select id="mode"></select></div>
+ <div class="ctl">Тональность <select id="key"></select> Лад <select id="mode"></select></div>
+ <p class="h">Тапни по внешнему кольцу — мажор, по внутреннему — минор. Соседи по кругу звучат «родственно», поэтому переходы между ними гладкие.</p>
  <h2>Аккорды лада</h2><div class="chords" id="diat"></div>
- <h2>Прогрессии по жанру</h2><select id="genre"></select>
- <div id="progs"></div><p style="color:#999">Пунктир = заимствованный аккорд (из другого лада) — ломает предсказуемость. Нажми аккорд — услышишь. «▶» — проиграть, «★» — выбрать для MIDI.</p>
+ <h2>Прогрессии по жанру</h2><select class="genre"></select>
+ <div id="progs"></div><p class="h">Пунктир = заимствованный аккорд (из другого лада) — ломает предсказуемость. Тап по аккорду — звук, «▶» — проиграть, «★» — взять в бит/MIDI.</p>
  <div id="chosen"></div>
 </section>
 <section id="t-drums">
- <div><select id="preset"></select> BPM <input id="bpm" type="number" value="140" min="60" max="200" style="width:70px"></div>
- <div>Свинг <input id="swing" type="range" min="0" max="60" value="0"> <span id="swv">0%</span></div>
- <div><button class="b" id="play">▶ Старт</button><button class="b" id="clear">Очистить</button><button class="b" id="withch">Аккорды: выкл</button></div>
- <div class="grid" id="grid"></div>
- <div><button class="b" id="mDr">⬇ MIDI барабаны</button><button class="b" id="mCh">⬇ MIDI аккорды</button><button class="b" id="mAll">⬇ MIDI всё</button></div>
- <p style="color:#999">MIDI: 4 такта, барабаны на 10 канале (GM), аккорды — 1 аккорд на такт.</p>
+ <div class="ctl">Жанр <select class="genre"></select> BPM <input id="bpm" type="number" value="140" min="50" max="200" style="width:64px"></div>
+ <div class="ctl">Свинг <input id="swing" type="range" min="0" max="60" value="0"> <span id="swv">0%</span></div>
+ <p class="h">Свинг сдвигает каждую вторую 1/16 назад — грув «качает» (бум-бэп, лоу-фай). В трэпе и дрилле обычно 0.</p>
+ <div class="ctl"><button class="b" id="play">▶ Старт</button><button class="b" id="clear">Очистить</button><button class="b" id="pre">↺ Пресет</button></div>
+ <p class="h">Тап по клетке — удар. Тап по названию — открыть звук в редакторе. 808/Саб/Бас играют корень текущего аккорда, Пэд и Клавиши — весь аккорд. Каждый такт — следующий аккорд прогрессии.</p>
+ <div id="grid"></div>
+ <h2>Мелодия (пиано-ролл)</h2>
+ <p class="h">Поставь ноту — строки подсветятся: <span class="lg s3">сильно</span> <span class="lg s2">хорошо</span> <span class="lg s1">в ладу</span>. Это ноты аккорда и консонансы (терции, кварта/квинта, сексты, октава) — прыгай по октавам и получишь «бесконечное арпеджио».</p>
+ <div id="roll"></div>
+ <div class="ctl"><button class="b" id="rclear">Очистить мелодию</button></div>
+ <h2>MIDI</h2>
+ <div class="ctl"><button class="b" id="mDr">⬇ Ударные</button><button class="b" id="mCh">⬇ Аккорды</button><button class="b" id="mAll">⬇ Всё</button></div>
+ <p class="h">4 такта. Ударные — 10 канал (General MIDI), 808/бас, пэд, клавиши и мелодия — отдельные дорожки. Файл откроется в «Файлах» → можно отправить в GarageBand/FL Mobile/Koala.</p>
+</section>
+<section id="t-keys">
+ <div class="ctl">Аккорд для подсказок <select id="kch"></select> Октава <button class="b" id="oDn">−</button><span id="oct">3</span><button class="b" id="oUp">+</button></div>
+ <div id="kb"></div>
+ <p class="h" id="khint">Нажми ноту — подсветятся ноты, которые с ней дружат (цвет = сила созвучия).</p>
+ <h2>Арпеджиатор</h2>
+ <div class="ctl"><label><input type="checkbox" id="arpOn"> Вкл</label> <label><input type="checkbox" id="latch"> Удержание</label>
+ <select id="apat"><option value="up">Вверх</option><option value="down">Вниз</option><option value="ud">Вверх-вниз</option><option value="rnd">Случайно</option><option value="ord">Как нажато</option></select></div>
+ <div class="ctl">Скорость <select id="arate"><option value="4">1/4</option><option value="8">1/8</option><option value="12">1/8 триоль</option><option value="16" selected>1/16</option><option value="24">1/16 триоль</option><option value="32">1/32</option></select>
+ Октав <input id="aoct" type="range" min="1" max="4" value="2"> <span id="aov">2</span></div>
+ <div class="ctl"><button class="b" id="achord">Аккорд → арп</button><button class="b" id="astop">■ Стоп арп</button></div>
+ <p class="h">Арпеджиатор играет зажатые ноты по очереди. «Удержание» — ноты держатся после отпускания. Октав 2–4 — мелодия «разлетается» вверх, как в трэп-лидах. Темп = BPM бита. Звук — инструмент «Лид» в редакторе.</p>
+</section>
+<section id="t-snd">
+ <div class="ctl">Инструмент <select id="inst"></select> <button class="b" id="prev">▶ Слушать</button></div>
+ <canvas id="wave" width="360" height="90"></canvas>
+ <canvas id="envc" width="360" height="80"></canvas>
+ <div id="params"></div>
+ <div class="ctl"><button class="b" id="pReset">Сбросить звук</button></div>
+ <h2>Эквалайзер (мастер)</h2>
+ <canvas id="eqc" width="360" height="90"></canvas>
+ <div id="eq"></div>
+ <p class="h">Низ (60 Гц) — бочка и 808, «удар в грудь». 250 Гц — «бубнёж», часто срезают. 1 кГц — середина, читаемость. 4 кГц — атака, голос, разборчивость. 10 кГц — «воздух», хэты. Режь лишнее чаще, чем поднимай.</p>
+ <div class="ctl"><button class="b" id="eqReset">Сбросить EQ</button></div>
 </section>
 <section id="t-lyr">
- <textarea id="lyr" rows="12" style="width:100%;background:#221a33;color:#eee;border-radius:10px;padding:8px;font-size:16px" placeholder="Пиши текст… (сохраняется автоматически)"></textarea>
- <div id="lstat" style="font-size:13px"></div>
- <h2>Рифмы</h2><input id="rw" placeholder="слово"> <button class="b" id="rlast">к последнему слову строки</button>
- <div id="rhymes" style="font-size:15px;line-height:1.8"></div>
- <p style="color:#999">Слоги = гласные. Ударение отметь ЗАГЛАВНОЙ гласной (сердцЕ) — тогда считаются ударения и рифма ищется от ударной гласной.</p>
+ <textarea id="lyr" rows="10" placeholder="Пиши текст… (сохраняется автоматически)"></textarea>
+ <div id="lstat"></div>
+ <p class="h">Справа от каждой строки — размер (ямб, хорей, дактиль, амфибрахий, анапест, дольник, тоника), число стоп и схема: ´ — ударный слог, ∪ — безударный, · — не знаю/односложное. Ударения берутся из словаря (~27 тыс. слов). Если ошибся — пометь ударение ЗАГЛАВНОЙ гласной (замОк) или «+» после гласной (замо+к, у+тро).</p>
+ <h2>Рифмы</h2><div class="ctl"><input id="rw" placeholder="слово"> <button class="b" id="rlast">к последнему слову</button></div>
+ <div id="rhymes"></div>
 </section>
 <section id="t-ref"></section>
-<nav><button data-t="circle" class="on">Круг</button><button data-t="drums">Драмы</button><button data-t="lyr">Текст</button><button data-t="ref">Справка</button></nav>
-<script src="words.js"></script><script src="app.js"></script></body></html>
+<nav><button data-t="circle" class="on">Круг</button><button data-t="drums">Бит</button><button data-t="keys">Клавиши</button><button data-t="snd">Звук</button><button data-t="lyr">Текст</button><button data-t="ref">Справка</button></nav>
+<script src="words.js"></script><script src="stress.js"></script><script src="ref.js"></script><script src="app.js"></script></body></html>
